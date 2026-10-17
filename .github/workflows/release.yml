@@ -76,7 +76,7 @@ jobs:
       contents: write
     steps:
       - name: Download release artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: downshelf-chrome
           path: release
@@ -114,7 +114,7 @@ jobs:
           node-version: 22
 
       - name: Download release artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: downshelf-chrome
           path: release
