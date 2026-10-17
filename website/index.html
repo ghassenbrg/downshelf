@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Downshelf is a free Chrome extension that sorts your downloads into folders automatically, using simple rules by website, link, file name or file type.">
+  <title>Downshelf — Sort Chrome downloads into folders automatically</title>
+  <link rel="icon" href="assets/icon-128.png">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="index.html"><img src="assets/logo.svg" alt=""><span>Downshelf</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html#features" class="optional">Features</a>
+        <a href="guide.html">Guide</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://github.com/ghassenbrg/downshelf">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="shell">
+        <div class="eyebrow">Free Chrome extension</div>
+        <h1>Every download,<br>on the right shelf.</h1>
+        <p class="lead">Downshelf files each download into the right folder the moment it arrives — by website, link, file name or file type. No more digging through a messy Downloads folder.</p>
+        <div class="actions">
+          <a class="button" href="guide.html#install">Install Downshelf</a>
+          <a class="button secondary" href="https://github.com/ghassenbrg/downshelf">View on GitHub</a>
+        </div>
+        <img class="hero-shot" src="assets/screenshots/screenshot-1-rules.png" alt="Downshelf settings: a list of rules on the left and a download tester on the right, explaining which rule matched a GitHub release." width="1280" height="800">
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="eyebrow">How it works</div>
+        <h2>Write a rule. Downloads follow it.</h2>
+        <p class="section-intro">Each rule says what to match and which folder to use. Rules are checked from top to bottom, and the first match decides — just like email filters.</p>
+        <ul class="rules">
+          <li><span class="pattern">github.com/acme/*</span><span>→</span><span class="folder">Development/Acme</span></li>
+          <li><span class="pattern">*.github.com</span><span>→</span><span class="folder">Development/GitHub</span></li>
+          <li><span class="pattern">labs.google</span><span>→</span><span class="folder">AI/Flow</span></li>
+          <li><span class="pattern">invoice-*, receipt-*</span><span>→</span><span class="folder">Finance/{year}</span></li>
+          <li><span class="pattern">*.pdf</span><span>→</span><span class="folder">Documents/PDF</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="shell">
+        <div class="eyebrow">Features</div>
+        <h2>Simple enough to set up in a minute.</h2>
+        <div class="grid">
+          <div class="card"><h3>Match on anything</h3><p>Websites and subdomains, a section of a site, file names with wildcards, or whole file types like images, archives and installers.</p></div>
+          <div class="card"><h3>Predictable priority</h3><p>Drag rules to reorder them. New rules are placed above broader ones, and Downshelf warns you when a rule can never fire.</p></div>
+          <div class="card"><h3>Test before you trust</h3><p>Paste any link or file name to see exactly where it would go, which rule matched, and why.</p></div>
+          <div class="card"><h3>Quick add</h3><p>Type <code>*.pdf → Documents/PDF</code> and press Enter. Combine conditions with <code>&amp;</code>.</p></div>
+          <div class="card"><h3>Smart folders</h3><p>Use <code>{domain}</code>, <code>{year}</code>, <code>{category}</code> and more to build folders automatically.</p></div>
+          <div class="card"><h3>Private by design</h3><p>No account, no analytics, no network requests. Your rules stay on your computer.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="eyebrow">A closer look</div>
+        <h2>Clear at every step.</h2>
+        <div class="shots">
+          <figure>
+            <img src="assets/screenshots/screenshot-2-editor.png" alt="The rule editor with a URL condition and a file type condition, and the destination folder Development/Acme/{year}." width="1280" height="800" loading="lazy">
+            <figcaption><strong>Guided rule editor.</strong> Conditions explain themselves as you type, with an example of where files will land.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/screenshot-4-order-dark.png" alt="Downshelf in dark mode warning that a Google Drive rule is never used because a broader Google rule above catches those files first." width="1280" height="800" loading="lazy">
+            <figcaption><strong>Conflicts spotted for you.</strong> If a broader rule hides a specific one, Downshelf tells you and fixes it in one click.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/screenshots/screenshot-3-popup.png" alt="The Downshelf toolbar popup on Google Flow, showing the matching rule and recently sorted files." width="1280" height="800" loading="lazy">
+            <figcaption><strong>Toolbar popup.</strong> Pause sorting, see rules for the current site, and check where recent files went.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="eyebrow">Good to know</div>
+        <h2>Works with Chrome, not around it.</h2>
+        <p class="section-intro">Chrome lets extensions choose folders inside your download location, so Downshelf creates subfolders there. Want files somewhere else? The <a href="guide.html#outside-downloads">guide</a> shows two simple ways to set that up yourself.</p>
+        <div class="actions" style="justify-content:flex-start">
+          <a class="button" href="guide.html#install">Get started</a>
+          <a class="button secondary" href="guide.html">Read the guide</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="shell">
+      <span>Downshelf · MIT licensed · Not affiliated with Google.</span>
+      <span><a href="privacy.html">Privacy</a> · <a href="https://github.com/ghassenbrg/downshelf/issues">Support</a> · <a href="https://github.com/ghassenbrg/downshelf/releases">Releases</a></span>
+    </div>
+  </footer>
+</body>
+</html>

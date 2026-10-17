@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "description": "Automatically sort downloads into folders with simple rules by website, URL, file name or file type.",
   "minimum_chrome_version": "116",
+  "homepage_url": "https://ghassenbrg.github.io/downshelf/",
   "permissions": ["downloads", "storage", "activeTab"],
   "background": {
     "service_worker": "background.js",

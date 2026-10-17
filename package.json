@@ -2,21 +2,46 @@
   "name": "downshelf",
   "version": "1.0.0",
   "private": true,
-  "description": "Chrome extension that automatically puts downloads on the right shelf — route files into folders with simple, ordered rules.",
+  "description": "Sort Chrome downloads into folders automatically with simple, ordered rules by website, URL, file name or type.",
   "license": "MIT",
   "author": "Ghassen Bargougui",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghassenbrg/downshelf.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ghassenbrg/downshelf/issues"
+  },
+  "homepage": "https://ghassenbrg.github.io/downshelf/",
+  "keywords": [
+    "chrome-extension",
+    "manifest-v3",
+    "downloads",
+    "download-manager",
+    "organizer",
+    "productivity"
+  ],
   "engines": {
-    "node": ">=20"
+    "node": ">=20.11"
   },
   "scripts": {
+    "build": "npm run build:chrome",
+    "build:chrome": "node scripts/build.mjs",
+    "validate:chrome": "node scripts/validate-chrome-build.mjs",
+    "validate:website": "node scripts/validate-website.mjs",
+    "validate": "npm run lint && npm test && npm run build:chrome && npm run validate:chrome",
+    "pack:chrome": "npm run build:chrome && npm run validate:chrome && node scripts/package-chrome.mjs",
+    "release:verify": "node scripts/verify-release-tag.mjs",
+    "release:notes": "node scripts/release-notes.mjs",
+    "publish:chrome": "node scripts/publish-chrome-web-store.mjs",
+    "version": "node scripts/sync-version.mjs && git add extension/manifest.json",
     "test": "node --test \"test/**/*.test.js\"",
     "lint": "biome check .",
     "format": "biome check --write .",
-    "check": "npm run lint && npm test",
     "preview": "node scripts/preview.mjs",
     "icons": "node scripts/build-icons.mjs",
-    "package": "node scripts/package.mjs"
+    "store:assets": "node scripts/store-assets.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15"

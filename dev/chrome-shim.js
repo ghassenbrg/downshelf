@@ -2,12 +2,23 @@
  * Development-only stand-in for the chrome.* APIs the UI uses, so the
  * options page and popup can be previewed in a normal browser tab
  * (`npm run preview`). Data lives in localStorage. Never shipped.
+ *
+ * Seeding is synchronous on purpose: the page's own module runs as soon as
+ * this one finishes, so the demo data must already be in place.
  */
-import { starterRules } from '../lib/defaults.js';
+import { demoState, runShot } from './shots.js';
 
 if (!globalThis.chrome?.storage) {
   const KEY = 'downshelf-dev-storage';
-  const read = () => JSON.parse(localStorage.getItem(KEY) || '{}');
+  const params = new URLSearchParams(location.search);
+  // Screenshot scenarios (?shot=…) use a throwaway in-memory store.
+  const shot = params.get('shot');
+  let memory = shot ? demoState(shot) : {};
+  const read = () => (shot ? memory : JSON.parse(localStorage.getItem(KEY) || '{}'));
+  const write = (all) => {
+    if (shot) memory = all;
+    else localStorage.setItem(KEY, JSON.stringify(all));
+  };
   const listeners = new Set();
   const emit = (changes) => {
     for (const listener of listeners) listener(changes, 'local');
@@ -33,7 +44,7 @@ if (!globalThis.chrome?.storage) {
         changes[key] = { oldValue: all[key], newValue: structuredClone(value) };
         all[key] = value;
       }
-      localStorage.setItem(KEY, JSON.stringify(all));
+      write(all);
       queueMicrotask(() => emit(changes));
     },
   };
@@ -70,36 +81,6 @@ if (!globalThis.chrome?.storage) {
     },
   };
 
-  const all = read();
-  if (!all.rules) {
-    const rules = starterRules();
-    const now = Date.now();
-    const docs = rules.find((r) => r.name === 'Documents');
-    const images = rules.find((r) => r.name === 'Images');
-    await local.set({
-      rules,
-      stats: {
-        [docs.id]: { count: 14, last: now - 1000 * 60 * 7 },
-        [images.id]: { count: 3, last: now - 1000 * 60 * 60 * 26 },
-      },
-      activity: [
-        {
-          at: now - 1000 * 60 * 7,
-          filename: 'Q3-report.pdf',
-          folder: 'Documents',
-          ruleId: docs.id,
-          ruleTitle: 'Documents',
-          host: 'example.com',
-        },
-        {
-          at: now - 1000 * 60 * 60 * 26,
-          filename: 'IMG_2041.heic',
-          folder: 'Images',
-          ruleId: images.id,
-          ruleTitle: 'Images',
-          host: 'photos.example.com',
-        },
-      ],
-    });
-  }
+  if (shot) runShot(shot);
+  else if (!read().rules) write(demoState('default'));
 }

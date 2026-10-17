@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How to install Downshelf, write download rules, control priority, and save downloads outside the Downloads folder.">
+  <title>Guide — Downshelf</title>
+  <link rel="icon" href="assets/icon-128.png">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="index.html"><img src="assets/logo.svg" alt=""><span>Downshelf</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html#features" class="optional">Features</a>
+        <a href="guide.html" aria-current="page">Guide</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://github.com/ghassenbrg/downshelf">GitHub</a>
+      </nav>
+    </div>
+  </header>
+  <main class="shell prose">
+    <h1>Guide</h1>
+    <p>Everything you need to sort your downloads with Downshelf.</p>
+
+    <h2 id="install">Install</h2>
+    <p><strong>Chrome Web Store:</strong> the listing is on its way. Until it's live, install the latest release:</p>
+    <ol class="steps">
+      <li>Download <code>downshelf-chrome-vX.Y.Z.zip</code> from the <a href="https://github.com/ghassenbrg/downshelf/releases/latest">latest release</a> and unzip it.</li>
+      <li>Open <code>chrome://extensions</code> and turn on <strong>Developer mode</strong>.</li>
+      <li>Click <strong>Load unpacked</strong> and select the unzipped folder.</li>
+      <li>Pin Downshelf from the puzzle-piece menu for one-click access.</li>
+    </ol>
+
+    <h2 id="rules">Writing rules</h2>
+    <p>Type a rule into <strong>Quick add</strong> on the settings page, or use <strong>New rule</strong> for a guided form.</p>
+    <table>
+      <thead><tr><th>Pattern</th><th>Matches</th></tr></thead>
+      <tbody>
+        <tr><td><code>example.com</code></td><td>example.com and www.example.com</td></tr>
+        <tr><td><code>*.google.com</code></td><td>google.com and every subdomain</td></tr>
+        <tr><td><code>github.com/acme/*</code></td><td>everything under /acme on github.com</td></tr>
+        <tr><td><code>*.pdf</code></td><td>any PDF file</td></tr>
+        <tr><td><code>invoice-*, receipt-*</code></td><td>names starting with either prefix</td></tr>
+        <tr><td><code>images</code>, <code>archives</code></td><td>whole families of file types</td></tr>
+        <tr><td><code>*.github.com &amp; *.zip</code></td><td>both conditions at once</td></tr>
+      </tbody>
+    </table>
+    <p>Website and URL rules check the download link, where it redirects to, and the page you downloaded from — so <code>drive.google.com</code> catches Drive files served from other Google servers.</p>
+    <p>Folders can use variables: <code>{domain}</code>, <code>{host}</code>, <code>{category}</code>, <code>{ext}</code>, <code>{year}</code>, <code>{month}</code>, <code>{day}</code>, <code>{date}</code>.</p>
+
+    <h2 id="priority">Priority</h2>
+    <p>Rules are checked from top to bottom; the first match wins. Drag rules to reorder them, or click <strong>Sort by specificity</strong>. To keep some files out of a broad rule, add a more specific rule above it with the destination <code>Downloads</code>.</p>
+
+    <h2 id="example-flow">Example: Google Flow downloads</h2>
+    <p>Flow runs at <code>labs.google</code>. Add this rule and every clip you download from Flow lands in <code>Downloads/AI/Flow</code>:</p>
+    <pre><code>labs.google → AI/Flow</code></pre>
+
+    <h2 id="outside-downloads">Saving outside the Downloads folder</h2>
+    <p>Chrome only lets extensions choose folders inside your download location, and Downshelf follows that rule. You can still send files elsewhere with a one-time change on your computer:</p>
+    <ol class="steps">
+      <li><strong>Move the download location up a level.</strong> In <code>chrome://settings/downloads</code>, set Location to a parent folder such as your home folder. Destinations like <code>Documents/PDF</code> are then relative to it.</li>
+      <li><strong>Link a folder into Downloads.</strong> Create a link inside Downloads that points elsewhere, then use the link's name as the destination.
+        <pre><code># macOS / Linux
+ln -s ~/Projects ~/Downloads/Projects
+
+:: Windows (Command Prompt)
+mklink /J "%USERPROFILE%\Downloads\Projects" "D:\Projects"</code></pre>
+      </li>
+    </ol>
+
+    <h2 id="troubleshooting">Troubleshooting</h2>
+    <ul>
+      <li><strong>A file went to the wrong place:</strong> paste its link (from <code>chrome://downloads</code>) into <strong>Test a download</strong> to see which rule matched.</li>
+      <li><strong>Rules seem ignored:</strong> another download extension may be choosing folders. Chrome uses the most recently installed one.</li>
+      <li><strong>Chrome asks where to save:</strong> that's Chrome's “Ask where to save each file” setting; the dialog opens in Downshelf's folder.</li>
+    </ul>
+  </main>
+  <footer class="site-footer">
+    <div class="shell">
+      <span>Downshelf · MIT licensed · Not affiliated with Google.</span>
+      <span><a href="privacy.html">Privacy</a> · <a href="https://github.com/ghassenbrg/downshelf/issues">Support</a> · <a href="https://github.com/ghassenbrg/downshelf/releases">Releases</a></span>
+    </div>
+  </footer>
+</body>
+</html>

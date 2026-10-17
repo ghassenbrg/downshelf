@@ -10,7 +10,19 @@
 </p>
 
 <p align="center">
-  <img src="docs/screenshot.jpg" width="800" alt="Downshelf options page: a list of rules on the left, a download tester on the right" />
+  <a href="https://github.com/ghassenbrg/downshelf/actions/workflows/ci.yml"><img src="https://github.com/ghassenbrg/downshelf/actions/workflows/ci.yml/badge.svg" alt="Validate extension" /></a>
+  <a href="https://github.com/ghassenbrg/downshelf/releases/latest"><img src="https://img.shields.io/github/v/release/ghassenbrg/downshelf" alt="Latest release" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license" /></a>
+</p>
+
+<p align="center">
+  <a href="https://ghassenbrg.github.io/downshelf/">Website</a> ·
+  <a href="https://ghassenbrg.github.io/downshelf/guide.html">Guide</a> ·
+  <a href="https://ghassenbrg.github.io/downshelf/privacy.html">Privacy</a>
+</p>
+
+<p align="center">
+  <img src="docs/chrome-web-store/screenshot-1-rules.png" width="800" alt="Downshelf options page: a list of rules on the left, a download tester on the right" />
 </p>
 
 ## What it does
@@ -21,7 +33,7 @@ Downloads folder automatically:
 ```
 github.com/org/*     →  Development/MyOrg
 *.github.com         →  Development/GitHub
-flow.google.com/*    →  AI/Flow
+labs.google          →  AI/Flow
 invoice-*, receipt-* →  Finance/{year}
 *.pdf                →  Documents/PDF
 images               →  Images
@@ -46,15 +58,17 @@ images               →  Images
 
 ## Install
 
-### From source (unpacked)
+**Chrome Web Store:** coming soon.
 
-1. Clone this repository.
-2. Open `chrome://extensions` and turn on **Developer mode** (top right).
-3. Click **Load unpacked** and select the **`extension`** folder in this repo.
-4. Downshelf opens its settings page with a few starter rules. Pin the toolbar icon for quick
-   access.
+**From a release:** download `downshelf-chrome-vX.Y.Z.zip` from the
+[latest release](https://github.com/ghassenbrg/downshelf/releases/latest) and unzip it. Then open
+`chrome://extensions`, turn on **Developer mode**, click **Load unpacked**, and select the unzipped
+folder.
 
-There is no build step: the folder you load is the source.
+**From source:** clone the repo and **Load unpacked** the **`extension`** folder. There is no build
+step: the folder you load is the source.
+
+Downshelf opens its settings page with a few starter rules. Pin the toolbar icon for quick access.
 
 ## Using it
 
@@ -125,16 +139,17 @@ Other things worth knowing:
 
 ## Development
 
-Requirements: Node.js 20+ (only for tooling; the extension itself has no dependencies).
+Requirements: Node.js 20.11+ (only for tooling; the extension itself has no dependencies).
 
 ```bash
-npm install        # installs Biome (lint + format), the only dev dependency
-npm test           # rule engine + service worker tests (node:test)
-npm run lint       # Biome lint + format check
-npm run format     # auto-fix lint and formatting
-npm run preview    # UI preview at http://localhost:5179 with a mocked chrome.* API
-npm run icons      # re-render the PNG icons from code
-npm run package    # zip the extension into dist/ for the Chrome Web Store
+npm ci                   # installs Biome (lint + format), the only dev dependency
+npm test                 # rule engine + service worker tests (node:test)
+npm run lint             # Biome lint + format check (npm run format to fix)
+npm run preview          # UI preview at http://localhost:5179 with a mocked chrome.* API
+npm run validate         # lint + tests + build + build validation (what CI runs)
+npm run pack:chrome      # build → validate → dist/packages/downshelf-chrome-vX.Y.Z.zip
+npm run icons            # re-render the PNG icons from code
+npm run store:assets     # re-render Chrome Web Store screenshots and promo tiles
 ```
 
 `npm run preview` serves the options page and popup in a normal browser tab, with
@@ -142,10 +157,26 @@ npm run package    # zip the extension into dist/ for the Chrome Web Store
 way to work on the UI. Use **Load unpacked** to test real downloads, then click the reload icon on
 `chrome://extensions` after changes to `background.js`.
 
+### Releasing
+
+Releases are tag-driven and publish to GitHub Releases and the Chrome Web Store:
+
+```bash
+npm version minor        # bumps package.json + manifest.json, commits, tags vX.Y.Z
+git push --follow-tags   # CI verifies, tests, packages, releases and submits for review
+```
+
+- [HOWTO.md](HOWTO.md) covers the one-time setup: accounts, first store submission, API
+  credentials, GitHub secrets and Pages.
+- [docs/PUBLISHING.md](docs/PUBLISHING.md) is the release runbook and troubleshooting.
+- [docs/CHROME_WEB_STORE_LISTING.md](docs/CHROME_WEB_STORE_LISTING.md) has the listing copy,
+  permission justifications, privacy answers and image files.
+- [docs/MANUAL_TESTING.md](docs/MANUAL_TESTING.md) is the pre-release checklist.
+
 ### Project layout
 
 ```
-extension/            ← load this folder in Chrome
+extension/            ← load this folder in Chrome (the build copies it to dist/chrome/)
   manifest.json       MV3 manifest (permissions: downloads, storage, activeTab)
   background.js       service worker: onDeterminingFilename → route() → suggest()
   lib/                pure logic, shared by the UI, the worker and the tests
@@ -158,9 +189,12 @@ extension/            ← load this folder in Chrome
   options/            settings page (rules, tester, activity, backup)
   popup/              toolbar popup
   shared/             design tokens, icons, tiny DOM helpers
-test/                 node:test suites for lib/ and the service worker
-scripts/              preview server, icon renderer, packager
-dev/chrome-shim.js    mocked chrome.* API for `npm run preview`
+test/                 node:test suites for lib/, the service worker and the manifest
+scripts/              build, validate, package, release, store publishing, assets, preview
+website/              GitHub Pages site (landing, guide, privacy policy)
+docs/                 publishing docs and Chrome Web Store assets
+dev/                  mocked chrome.* API, screenshot scenarios and store artwork pages
+.github/workflows/    CI, release and website deployment
 ```
 
 The UI is plain ES modules, HTML and CSS: no framework and no bundler. Everything under
@@ -179,6 +213,11 @@ The UI is plain ES modules, HTML and CSS: no framework and no bundler. Everythin
 Downshelf makes no network requests and collects nothing. Rules, settings and the last 30 sorted
 downloads (file name, folder, site) are stored in `chrome.storage.local` on your device. See
 [PRIVACY.md](PRIVACY.md).
+
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md), [SUPPORT.md](SUPPORT.md) and
+[SECURITY.md](SECURITY.md).
 
 ## License
 

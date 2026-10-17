@@ -1,5 +1,7 @@
 # Changelog
 
+All notable changes to Downshelf. Each release's notes are published from this file.
+
 ## 1.0.0 — 2026-10-17
 
 First release.

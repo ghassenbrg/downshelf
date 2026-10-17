@@ -1,20 +1,45 @@
-name: CI
+name: Validate extension
 
 on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  check:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
-      - run: npm run lint
-      - run: npm test
-      - run: npm run package
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Lint, test, build and validate
+        run: npm run validate
+
+      - name: Validate website
+        run: npm run validate:website
+
+      - name: Package
+        run: node scripts/package-chrome.mjs
+
+      - name: Upload test package
+        uses: actions/upload-artifact@v4
+        with:
+          name: downshelf-chrome-${{ github.sha }}
+          path: dist/packages/*.zip
+          if-no-files-found: error
+          retention-days: 7

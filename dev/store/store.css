@@ -1,0 +1,41 @@
+/* Shared look for generated Chrome Web Store artwork. */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #fff;
+  background:
+    radial-gradient(1200px 600px at 85% 110%, rgb(255 255 255 / 0.14), transparent 60%),
+    radial-gradient(900px 500px at -10% -20%, rgb(150 150 255 / 0.35), transparent 60%),
+    linear-gradient(135deg, #6a66e6 0%, #4b44c9 55%, #36309e 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+.logo {
+  display: block;
+  filter: drop-shadow(0 10px 24px rgb(20 16 80 / 0.35));
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.14);
+  border: 1px solid rgb(255 255 255 / 0.22);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  white-space: nowrap;
+}
+
+.arrow {
+  opacity: 0.75;
+}
