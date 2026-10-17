@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Downshelf</title>
+    <link rel="stylesheet" href="../shared/base.css" />
+    <link rel="stylesheet" href="popup.css" />
+    <script type="module" src="popup.js"></script>
+  </head>
+  <body>
+    <header class="head">
+      <span id="logo"></span>
+      <div class="head-text">
+        <h1>Downshelf</h1>
+        <p id="status" class="status">Sorting on</p>
+      </div>
+      <label class="switch" title="Turn automatic sorting on or off">
+        <input id="toggle" type="checkbox" role="switch" aria-label="Sorting enabled" checked />
+        <span class="track"></span>
+      </label>
+    </header>
+
+    <section id="site" class="block" hidden></section>
+
+    <section class="block">
+      <h2 class="block-title">Recently sorted</h2>
+      <ul id="activity" class="activity"></ul>
+    </section>
+
+    <footer class="foot">
+      <span id="summary" class="muted"></span>
+      <button id="open-options" class="btn btn-sm" type="button">Manage rules</button>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "downshelf",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Chrome extension that automatically puts downloads on the right shelf — route files into folders with simple, ordered rules.",
+  "license": "MIT",
+  "author": "Ghassen Bargougui",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "check": "npm run lint && npm test",
+    "preview": "node scripts/preview.mjs",
+    "icons": "node scripts/build-icons.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15"
+  }
+}
